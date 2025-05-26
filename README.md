@@ -10,7 +10,7 @@ An intelligent, agentic, and fully-automated flight booking assistant built usin
 - 🌐 **Natural Language Interface**: Powered by Google Gemini 2.0 for conversational fluency.
 - 🛫 **Live Flight Search**: Integrated with the Amadeus API for real-time flight information.
 - 🧠 **Context-Aware Planning**: Supports user preferences, budget, travel dates, and flexible search.
-- 🔁 **Multi-Turn Dialogue**: Handles complex, multi-step interactions with memory and context.
+- 🔁 **Multi-Turn Dialogue**: Handles complex, multi-step interactions.
 - 🖥️ **Streamlit UI**: Simple, clean, and responsive web interface for instant deployment and testing.
 
 ---
