@@ -17,7 +17,7 @@ An intelligent, agentic, and fully-automated flight booking assistant built usin
 
 ## 🧠 How It Works
 
-1. **User Interaction**: A user types natural queries like.
+1. **User Interaction**: A user types natural queries.
 2. **LangGraph Agent Planning**: The LangGraph agent plans the conversation steps, calls the necessary tools, and refines search.
 3. **Gemini 2.0 Reasoning**: Gemini interprets intent, maintains context, and drives dialogue flow.
 4. **Amadeus API Lookup**: Fetches real-time flight data including prices, carriers, dates, and more.
