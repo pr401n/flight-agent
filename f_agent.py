@@ -104,8 +104,7 @@ SYSTEM_PROMPT = SystemMessage(content="""You are FlightAgent, a professional fli
 Rules:
 - Be concise but thorough
 - Verify details before confirming
-- Stay focused on flight-related queries
-- Manage API calls efficiently""")
+- Stay focused on flight-related queriesy""")
 
 # --- Flight Search Tools ---
 class FlightTools:
