@@ -13,6 +13,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from amadeus import Client, ResponseError
 import streamlit as st
 
+
 # --- Configuration ---
 load_dotenv()
 
