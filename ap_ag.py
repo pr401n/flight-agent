@@ -5,7 +5,7 @@ from langchain_core.messages import AIMessage, HumanMessage
 # Initialize session state
 if "agent" not in st.session_state:
     st.session_state.agent = FlightBookingAgent()
-    st.session_state.messages = [AIMessage(content="Welcome to FlightAgent! Where would you like to go?")]
+    st.session_state.messages = [AIMessage(htAgent! Where would you like to go?")]
 
 # App layout
 st.set_page_config(page_title="Flight Booking Assistant", page_icon="✈️")
