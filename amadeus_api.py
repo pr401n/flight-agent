@@ -82,5 +82,7 @@ def search_flights(
         return f"Unexpected error: {str(e)}"
 
 
-flights= search_flights("ADD","CDG","2025-06-10")
-print(flights)
+
+if __name__ == "__main__":
+    flights= search_flights("ADD","CDG","2025-06-10")
+    print(flights)
