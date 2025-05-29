@@ -14,6 +14,30 @@ amadeus = Client(
 )
 
 
+
+def format_flight_results(flights):
+    """Format flight results for display"""
+    if not flights:
+        return "No flights found matching your criteria."
+    
+    formatted = []
+    for idx, flight in enumerate(flights[:5], 1):  # Show top 5 results
+        itinerary = flight['itineraries'][0]
+        segment = itinerary['segments'][0]
+        price = flight['price']['total']
+        
+        formatted.append(
+            f"{idx}. {segment['departure']['iataCode']} → {segment['arrival']['iataCode']}\n"
+            f"   Departure: {segment['departure']['at']}\n"
+            f"   Arrival: {segment['arrival']['at']}\n"
+            f"   Airline: {segment['carrierCode']} {segment['aircraft']['code']}\n"
+            f"   Price: {price} {flight['price']['currency']}\n"
+            f"   Flight ID: {flight['id']}"
+        )
+    
+    return "\n\n".join(formatted)
+    
+
 def search_flights(
     departure: str, 
     destination: str, 
@@ -50,7 +74,7 @@ def search_flights(
         response = amadeus.shopping.flight_offers_search.get(**params)
         
         # results
-        return response.data
+        return format_flight_results(response.data)
     
     except ResponseError as error:
         return f"Error searching flights: {error}"
