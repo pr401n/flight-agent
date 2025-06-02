@@ -138,21 +138,3 @@ def get_airline_name(code):
         # Add more mappings as needed
     }
     return airline_map.get(code, code)
-
-def format_time(datetime_str):
-    """Format ISO datetime to readable time"""
-    from datetime import datetime
-    dt = datetime.fromisoformat(datetime_str)
-    return dt.strftime("%a, %b %d %H:%M")
-
-def format_duration(duration_str):
-    """Convert PT4H5M to 4h 5m"""
-    return duration_str[2:].replace('H', 'h ').replace('M', 'm').strip()
-
-def get_baggage_info(flight, segment_id):
-    """Get baggage allowance for specific segment"""
-    for traveler in flight['travelerPricings']:
-        for segment in traveler['fareDetailsBySegment']:
-            if segment['segmentId'] == segment_id:
-                return f"{segment['includedCheckedBags']['quantity']} checked bags"
-    return "Baggage info not available"
