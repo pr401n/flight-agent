@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from typing import Optional
 from amadeus import ResponseError, Client
 import os
+import format_flights
 
 
 load_dotenv()
@@ -12,6 +13,94 @@ amadeus = Client(
     client_id=os.getenv('AMADEUS_API_KEY'),
     client_secret=os.getenv('AMADEUS_API_SECRET')
 )
+
+def verify_price(flight_id):
+    try:
+        # Flight offers pricing
+        pricing_response = amadeus.shopping.flight_offers.pricing.post(
+            flight_id  # Using the first flight offer from search
+        )
+        priced_offer = pricing_response.data
+        return priced_offer
+    except ResponseError as error:
+        print(error)
+
+def order_with_payment(flight_id):
+    try:
+        # Create flight order with payment
+        booking_response = amadeus.booking.flight_orders.post(
+            data={
+                "data": {
+                    "type": "flight-order",
+                    "flightOffers": [flight_id],
+                    "travelers": [{
+                        "id": "1",
+                        "dateOfBirth": "1982-01-16",
+                        "name": {
+                            "firstName": "JOHN",
+                            "lastName": "SMITH"
+                        },
+                        "gender": "MALE",
+                        "contact": {
+                            "emailAddress": "john.smith@email.com",
+                            "phones": [{
+                                "deviceType": "MOBILE",
+                                "countryCallingCode": "44",
+                                "number": "07654321098"
+                            }]
+                        },
+                        "documents": [{
+                            "documentType": "PASSPORT",
+                            "number": "123456789",
+                            "expiryDate": "2025-01-16",
+                            "issuanceCountry": "GB",
+                            "nationality": "GB"
+                        }]
+                    }],
+                    "remarks": {
+                        "general": [{
+                            "subType": "GENERAL_MISCELLANEOUS",
+                            "text": "ONLINE BOOKING FROM MY WEBSITE"
+                        }]
+                    },
+                    "ticketingAgreement": {
+                        "option": "DELAY_TO_CANCEL",
+                        "delay": "6D"
+                    },
+                    "contacts": [{
+                        "addresseeName": {
+                            "firstName": "JOHN",
+                            "lastName": "SMITH"
+                        },
+                        "companyName": "TRAVEL COMPANY",
+                        "purpose": "STANDARD",
+                        "phones": [{
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "1",
+                            "number": "123456789"
+                        }],
+                        "emailAddress": "contact@email.com",
+                        "address": {
+                            "lines": ["123 MAIN ST"],
+                            "postalCode": "12345",
+                            "cityName": "NEW YORK",
+                            "countryCode": "US"
+                        }
+                    }],
+                    "payment": {
+                        "method": "creditCard",
+                        "card": {
+                            "vendorCode": "VI",
+                            "cardNumber": "4111111111111111",
+                            "expiryDate": "2026-01"
+                        }
+                    }
+                }
+            }
+        )
+        print("Booking confirmed:", booking_response.data)
+    except ResponseError as error:
+        print(error)
 
 
 
@@ -68,13 +157,13 @@ def search_flights(
         
         if return_date:
             params['returnDate'] = return_date
-            params['nonStop'] = True  # Example additional parameter
+            params['nonStop'] = True 
         
         # Call Amadeus API
         response = amadeus.shopping.flight_offers_search.get(**params)
         
         # results
-        return format_flight_results(response.data)
+        return response.data
     
     except ResponseError as error:
         return f"Error searching flights: {error}"
@@ -83,6 +172,17 @@ def search_flights(
 
 
 
-if __name__ == "__main__":
-    flights= search_flights("ADD","CDG","2025-06-10")
-    print(flights)
+
+if __name__== "__main__":
+
+    flights = search_flights("ADD","CDG","2025-06-20")
+    print(format_flights.format_flight_results(flights))
+
+    priced_offer = verify_price(flights[0])
+    print(format_flights.format_price_verification(priced_offer))
+
+    # order_with_payment(flights[0])
+    # formated_flights = format_flight_results(flights) 
+    # print(formated_flights)
+   
+
