@@ -181,8 +181,5 @@ if __name__== "__main__":
     priced_offer = verify_price(flights[0])
     print(format_flights.format_price_verification(priced_offer))
 
-    # order_with_payment(flights[0])
-    # formated_flights = format_flight_results(flights) 
-    # print(formated_flights)
    
 
